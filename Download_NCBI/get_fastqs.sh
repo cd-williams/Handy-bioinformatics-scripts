@@ -27,7 +27,7 @@ prefetch ${accession}
 vdb-validate ${accession}/${accession}.sra > ${accession}/md5.txt 2>&1
 
 # Convert to .fastq
-fasterq-dump --threads 5 --progress -O  ${accession}/ ${accession}
+fasterq-dump --threads $SLURM_CPUS_PER_TASK --progress -O  ${accession}/ ${accession}
 
 # Compress in parallel using bgzip
 bgzip --threads $SLURM_CPUS_PER_TASK ${accession}/${accession}_1.fastq
