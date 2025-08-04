@@ -12,8 +12,8 @@
 eval "$(conda shell.bash hook)"
 source $CONDA_PREFIX/etc/profile.d/mamba.sh
 
-# Activate sra_toolkit
-mamba activate sra_toolkit
+# Activate the download_NCBI environment
+mamba activate download_NCBI
 
 # Use a SLURM array to process all the samples in parallel
 accessions_list=$1
