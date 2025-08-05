@@ -1,0 +1,58 @@
+# This snakefile is a pipeline for trimming and filtering paired-end reads from FASTQ and mapping them to a reference genome
+# The end result should be a folder containing an indexed BAM file for each sample
+# Cian Williams cdw45@cam.ac.uk
+
+
+# The snakemake config file. This should be in the working directory for the project (where you want the folder with all the BAM files to be)
+# It contains all the sample info, as well as options for some of the commands
+configfile: "config.yaml"
+
+# The "target" rule (our final destination; what we would like to have at the end of the pipeline)
+# rule all:
+#     input:
+#         stats = expand("BAM_files/stats/{sample}.stats", sample=config["prefix"]) # diagnostic stats for our alignment
+#         flagstats = expand("BAM_files/stats/{sample}.flagstats", sample=config["prefix"])
+#         index = expand("BAM_files/{sample}.rmd.bam.bai", sample=config["prefix"]) # index for the sorted BAM file with PCR duplicates removed
+
+# Test to make sure the modular pipeline is behaving the way I expect it to (above is the "final" version)
+rule all:
+    input:
+        bam = expand("mapped_reads/{sample}.bam", sample=config["prefix"])
+
+
+# All the other rules are saved separately to make this pipeline modular so I can change it and add other options more easily in the future
+pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile 
+
+default_env = os.path.join(pipeline_dir, "envs", "filter_map_reads_default.yml") # setting the default conda environment for the rules
+config["default_env"] = default_env # inject it into the config so we can grab it within other rules
+
+# Rule that uses fastp to trim and filter reads
+include: os.path.join(pipeline_dir, "rules", "trim_filter_fastqs.smk")
+
+# Rule that uses bwa to map reads to reference genome. Modularity of this pipeline means I can add support for other aligners in the future
+include: os.path.join(pipeline_dir, "rules", "bwa_map.smk") 
+
+# Rule to sort the resulting BAM file
+include: os.path.join(pipeline_dir, "rules", "samtools_sort.smk")
+
+# Rule to index the result of this
+include: os.path.join(pipeline_dir, "rules", "samtools_index.smk")
+
+# Rule to remove PCR duplicates using Picard
+include: os.path.join(pipeline_dir, "rules", "remove_PCR_dups.smk")
+
+# Rule to index the result of this (pretty sure there should be an elegant way to reuse the previous indexing rule but for now it's separate)
+include: os.path.join(pipeline_dir, "rules", "samtools_index_deduped.smk")
+
+# Rule to get diagnostic stats for our alignments
+include: os.path.join(pipeline_dir, "rules", "BAM_stats.smk")
+
+
+
+
+
+
+
+
+
+
