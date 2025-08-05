@@ -3,3 +3,4 @@ Handy bioinformatics scripts for operations I find myself needing to perform fre
 
 - `VCF_QC` contains scripts for getting and plotting diagnostic stats from VCF files to inform filtering decisions
 - `Download_NCBI` contains scripts for downloading sequencing data from the NCBI database
+- `Filter_map_reads` contains a modular snakemake pipeline for trimming, filtering and mapping short reads to a reference genome. WIP
