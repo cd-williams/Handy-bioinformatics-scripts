@@ -24,7 +24,7 @@ rule all:
 pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile 
 
 default_env = os.path.join(pipeline_dir, "envs", "filter_map_reads_default.yml") # setting the default conda environment for the rules
-config["default_env"] = default_env # inject it into the config so we can grab it within other rules
+config["default_env"] = default_env # put it into the config so we can grab it within other rules
 
 # Rule that uses fastp to trim and filter reads
 include: os.path.join(pipeline_dir, "rules", "trim_filter_fastqs.smk")
