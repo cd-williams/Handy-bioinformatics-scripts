@@ -1,6 +1,5 @@
 # Snakemake rule that sorts BAM files
-# We will need to do this twice in our workflow (once directly after mapping and once after removing PCR duplicates)
-# but I haven't worked out an elegant way to do that with just one rule yet
+
 
 rule samtools_sort:
     input:
