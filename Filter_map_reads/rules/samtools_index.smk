@@ -1,6 +1,6 @@
 # Rule to index BAM file
-# We need to do this more than once in our workflow and I think there ought to be an elegant way to do that but I haven't worked it out yet
-# So for now each time we do it is a different rule. Watch this space.
+# This rule handles every BAM indexing step in the pipeline, but unfortunately there isn't an elegant way to do that using wildcards
+# since we want the outputs from some steps to be temporary while we want others to be permament
 
 rule samtools_index:
     input:

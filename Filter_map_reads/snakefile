@@ -41,8 +41,15 @@ include: os.path.join(pipeline_dir, "rules", "samtools_index.smk")
 # Rule to remove PCR duplicates using Picard
 include: os.path.join(pipeline_dir, "rules", "remove_PCR_dups.smk")
 
-# Rule to index the result of this (pretty sure there should be an elegant way to reuse the previous indexing rule but for now it's separate)
-include: os.path.join(pipeline_dir, "rules", "samtools_index_deduped.smk")
+# Reusing the rule for BAM indexing to index the result of this. Unfortunately there isn't a more elegant way to do this using wildcards
+# because we want the output of the first one to be temporary while we want to guarantee that this one sticks around
+use rule samtools_index as samtools_index_deduped with:
+    input:
+        "BAM_files/{sample}.rmd.bam"
+    output:
+        "BAM_files/{sample}.rmd.bam.bai"
+    log:
+        "logs/samtools_index_deduped/{sample}.log"
 
 # Rule to get diagnostic stats for our alignments
 include: os.path.join(pipeline_dir, "rules", "BAM_stats.smk")
