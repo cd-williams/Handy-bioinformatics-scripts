@@ -1,0 +1,17 @@
+# Profile for setting snakemake options relevant for the SLURM scheduler
+
+# Maximum number of jobs snakemake can submit at any one time
+jobs: 100
+
+# Tells it to use conda environments specified in rules
+use-conda: true
+
+# Number of cores snakemake can use locally
+cores: 10
+
+# The config file for rule-specific SLURM settings
+cluster-config: "~/Handy-bioinformatics-scripts/Filter_map_reads/profiles/cluster_config.yaml"
+
+# The command snakemake actually submits to the HPC
+# {cluster.xxx} are pulled from the cluster-config file
+cluster: "sbatch -A {cluster.account} -p {cluster.partition} -t {cluster.time} -o {cluster.output} -c {cluster.cpus-per-task} --mail-type {cluster.mail-type}"

@@ -1,0 +1,33 @@
+# Config file for rule-specific resource allocation requested to SLURM
+
+# Default settings
+__default__:
+  cpus-per-task: 1
+  time: "01:00:00"
+  partition: "cclake-himem"
+  mail-type: "FAIL"
+  account: "JIGGINS-SL3-CPU"
+  output: "logs/slurm/{rule}.{wildcards}.out",
+  error: "logs/slurm/{rule}.{wildcards}.err",
+  jobname: "process_raw_samples"
+
+
+# Rule-specific settings
+
+trim_filter_fastqs:
+  cpus-per-task: 5
+  jobname: "trim"
+
+bwa_map:
+  cpus-per-task: 10
+  jobname: "bwa_map"
+
+samtools_sort:
+  cpus-per-task: 10
+  jobname: "samtools_sort"
+
+samtools_index:
+  jobname: "samtools_index" # pretty sure there is a more elegant way of doing that
+
+# Will add the rest once I am confident this all works
+
