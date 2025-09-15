@@ -26,7 +26,7 @@ pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakef
 
 # Loading the YAML file containing SLURM instructions for the individual rules. This enables central control of number of threads from one file
 import yaml
-with open(os.path.join(pipeline_dir, "profiles", "cluster_config.yaml")) as f:
+with open(os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/profiles/cluster_config.yaml")) as f:
     cluster_config = yaml.safe_load(f)
 
 # Setting the conda environment

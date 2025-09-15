@@ -7,8 +7,8 @@ __default__:
   partition: "cclake-himem"
   mail-type: "FAIL"
   account: "JIGGINS-SL3-CPU"
-  output: "logs/slurm/{rule}.{wildcards}.out",
-  error: "logs/slurm/{rule}.{wildcards}.err",
+  output: "logs/slurm/{rule}.{wildcards}.out"
+  error: "logs/slurm/{rule}.{wildcards}.err"
   jobname: "process_raw_samples"
 
 
