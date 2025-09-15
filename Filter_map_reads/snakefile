@@ -17,12 +17,19 @@ configfile: "config.yaml"
 # Test to make sure the modular pipeline is behaving the way I expect it to (above is the "final" version)
 rule all:
     input:
-        bam = expand("mapped_reads/{sample}.bam", sample=config["prefix"])
+        f = expand("trimmed_reads/{sample}.fastp.1.fq.gz", sample=config["prefix"]),
+        r = expand("trimmed_reads/{sample}.fastp.2.fq.gz", sample=config["prefix"])
 
 
 # All the other rules are saved separately to make this pipeline modular so I can change it and add other options more easily in the future
-pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile 
+pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile
 
+# Loading the YAML file containing SLURM instructions for the individual rules. This enables central control of number of threads from one file
+import yaml
+with open(os.path.join(pipeline_dir, "profiles", "cluster_config.yaml")) as f:
+    cluster_config = yaml.safe_load(f)
+
+# Setting the conda environment
 default_env = os.path.join(pipeline_dir, "envs", "filter_map_reads_default.yml") # setting the default conda environment for the rules
 config["default_env"] = default_env # put it into the config so we can grab it within other rules
 

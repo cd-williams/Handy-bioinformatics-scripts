@@ -8,7 +8,7 @@ rule trim_filter_fastqs:
         f = temp("trimmed_reads/{sample}.fastp.1.fq.gz"), # temp because they take up space and aren't our target
         r = temp("trimmed_reads/{sample}.fastp.2.fq.gz"),
         html = "trim_fastq_reports/{sample}.fastp.html" # We will hold on to these since they are small and we might want to look at them later
-    threads: 5
+    threads: cluster_config.get("trim_filter_fastqs", cluster_config["__default__"])["cpus-per-task"]
     conda:
         config["default_env"]
     log:
