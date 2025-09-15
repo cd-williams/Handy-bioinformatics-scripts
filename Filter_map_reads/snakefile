@@ -22,7 +22,7 @@ rule all:
 
 
 # All the other rules are saved separately to make this pipeline modular so I can change it and add other options more easily in the future
-pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile
+pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile #NOTE I am not sure this is working and will replace it with something better
 
 # Loading the YAML file containing SLURM instructions for the individual rules. This enables central control of number of threads from one file
 import yaml
@@ -30,36 +30,41 @@ with open(os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/pr
     cluster_config = yaml.safe_load(f)
 
 # Setting the conda environment
-default_env = os.path.join(pipeline_dir, "envs", "filter_map_reads_default.yml") # setting the default conda environment for the rules
+default_env = os.path.expanduser("~/Handy-bioinformatics-scripts/envs/filter_map_reads_default.yml") # setting the default conda environment for the rules
 config["default_env"] = default_env # put it into the config so we can grab it within other rules
 
+# Creating a function to pull the filepath for a rule
+def get_rule_filepath(rule):
+    return os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/rules/" + rule + ".smk")
+
+
 # Rule that uses fastp to trim and filter reads
-include: os.path.join(pipeline_dir, "rules", "trim_filter_fastqs.smk")
+include: get_rule_filepath("trim_filter_fastqs")
 
-# Rule that uses bwa to map reads to reference genome. Modularity of this pipeline means I can add support for other aligners in the future
-include: os.path.join(pipeline_dir, "rules", "bwa_map.smk") 
+# # Rule that uses bwa to map reads to reference genome. Modularity of this pipeline means I can add support for other aligners in the future
+# include: os.path.join(pipeline_dir, "rules", "bwa_map.smk") 
 
-# Rule to sort the resulting BAM file
-include: os.path.join(pipeline_dir, "rules", "samtools_sort.smk")
+# # Rule to sort the resulting BAM file
+# include: os.path.join(pipeline_dir, "rules", "samtools_sort.smk")
 
-# Rule to index the result of this
-include: os.path.join(pipeline_dir, "rules", "samtools_index.smk")
+# # Rule to index the result of this
+# include: os.path.join(pipeline_dir, "rules", "samtools_index.smk")
 
-# Rule to remove PCR duplicates using Picard
-include: os.path.join(pipeline_dir, "rules", "remove_PCR_dups.smk")
+# # Rule to remove PCR duplicates using Picard
+# include: os.path.join(pipeline_dir, "rules", "remove_PCR_dups.smk")
 
-# Reusing the rule for BAM indexing to index the result of this. Unfortunately there isn't a more elegant way to do this using wildcards
-# because we want the output of the first one to be temporary while we want to guarantee that this one sticks around
-use rule samtools_index as samtools_index_deduped with:
-    input:
-        "BAM_files/{sample}.rmd.bam"
-    output:
-        "BAM_files/{sample}.rmd.bam.bai"
-    log:
-        "logs/samtools_index_deduped/{sample}.log"
+# # Reusing the rule for BAM indexing to index the result of this. Unfortunately there isn't a more elegant way to do this using wildcards
+# # because we want the output of the first one to be temporary while we want to guarantee that this one sticks around
+# use rule samtools_index as samtools_index_deduped with:
+#     input:
+#         "BAM_files/{sample}.rmd.bam"
+#     output:
+#         "BAM_files/{sample}.rmd.bam.bai"
+#     log:
+#         "logs/samtools_index_deduped/{sample}.log"
 
-# Rule to get diagnostic stats for our alignments
-include: os.path.join(pipeline_dir, "rules", "BAM_stats.smk")
+# # Rule to get diagnostic stats for our alignments
+# include: os.path.join(pipeline_dir, "rules", "BAM_stats.smk")
 
 
 
