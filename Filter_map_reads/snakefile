@@ -30,7 +30,7 @@ with open(os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/pr
     cluster_config = yaml.safe_load(f)
 
 # Setting the conda environment
-default_env = os.path.expanduser("~/Handy-bioinformatics-scripts/envs/filter_map_reads_default.yml") # setting the default conda environment for the rules
+default_env = os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/envs/filter_map_reads_default.yml") # setting the default conda environment for the rules
 config["default_env"] = default_env # put it into the config so we can grab it within other rules
 
 # Creating a function to pull the filepath for a rule

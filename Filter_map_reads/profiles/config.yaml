@@ -1,0 +1,31 @@
+# Profile for setting snakemake options relevant for the SLURM scheduler
+
+# Maximum number of jobs snakemake can submit at any one time
+jobs: 100
+
+# Tells it to use conda environments specified in rules
+use-conda: true
+
+# Number of cores snakemake can use locally
+cores: 10
+
+# Tell snakemake that we will be using SLURM as our job scheduler
+executor: slurm
+
+# Default resources for a rule
+default-resources:
+  time: "01:00:00"
+  partition: "cclake-himem"
+  account: "JIGGINS-SL3-CPU"
+  output: "logs/slurm/{rule}.{wildcards}.out"
+  error: "logs/slurm/{rule}.{wildcards}.err"
+  jobname: "process_raw_samples"
+  slurm_extra: "mail-type=FAIL"
+
+# Set specific resources for specific rules
+set-resources:
+  trim_filter_fastqs:
+    jobname: "trim"
+
+set-threads:
+  trim_filter_fastqs: 5
