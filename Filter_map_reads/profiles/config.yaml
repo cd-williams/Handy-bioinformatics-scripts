@@ -20,12 +20,13 @@ default-resources:
   output: "logs/slurm/{rule}.{wildcards}.out"
   error: "logs/slurm/{rule}.{wildcards}.err"
   jobname: "process_raw_samples"
-  slurm_extra: "mail-type=FAIL"
+  slurm_extra: "--mail-type=FAIL"
 
 # Set specific resources for specific rules
 set-resources:
   trim_filter_fastqs:
     jobname: "trim"
+    cpus_per_task: 5
 
 set-threads:
   trim_filter_fastqs: 5
