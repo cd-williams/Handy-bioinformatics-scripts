@@ -14,19 +14,18 @@ executor: slurm
 
 # Default resources for a rule
 default-resources:
-  time: "01:00:00"
-  partition: "cclake-himem"
-  account: "JIGGINS-SL3-CPU"
+  runtime: 60  # in MINUTES
+  slurm_partition: "cclake-himem"
+  slurm_account: "JIGGINS-SL3-CPU"
   output: "logs/slurm/{rule}.{wildcards}.out"
   error: "logs/slurm/{rule}.{wildcards}.err"
-  jobname: "process_raw_samples"
   slurm_extra: "--mail-type=FAIL"
 
 # Set specific resources for specific rules
 set-resources:
   trim_filter_fastqs:
-    jobname: "trim"
     cpus_per_task: 5
+    slurm_extra: "--mail-type=ALL"
 
 set-threads:
   trim_filter_fastqs: 5
