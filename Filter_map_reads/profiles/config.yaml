@@ -17,15 +17,14 @@ default-resources:
   runtime: 60  # in MINUTES
   slurm_partition: "cclake-himem"
   slurm_account: "JIGGINS-SL3-CPU"
-  output: "logs/slurm/{rule}.{wildcards}.out"
-  error: "logs/slurm/{rule}.{wildcards}.err"
-  slurm_extra: "--mail-type=FAIL"
+  slurm_extra: "--mail-type=FAIL --output=logs/slurm/{rule}.{wildcards}.out --error=logs/slurm/{rule}.{wildcards}.err"
 
 # Set specific resources for specific rules
 set-resources:
   trim_filter_fastqs:
     cpus_per_task: 5
     slurm_extra: "--mail-type=ALL"
+    rumtime: 10
 
 set-threads:
   trim_filter_fastqs: 5
