@@ -22,7 +22,7 @@ rule all:
 
 
 # All the other rules are saved separately to make this pipeline modular so I can change it and add other options more easily in the future
-pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile #NOTE I am not sure this is working and will replace it with something better
+pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile #NOTE I am not sure this is working and will replace it with something betterq
 
 # Setting the conda environment
 default_env = os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/envs/filter_map_reads_default.yml") # setting the default conda environment for the rules
