@@ -8,21 +8,18 @@
 configfile: "config.yaml"
 
 # The "target" rule (our final destination; what we would like to have at the end of the pipeline)
-# rule all:
-#     input:
-#         stats = expand("BAM_files/stats/{sample}.stats", sample=config["prefix"]) # diagnostic stats for our alignment
-#         flagstats = expand("BAM_files/stats/{sample}.flagstats", sample=config["prefix"])
-#         index = expand("BAM_files/{sample}.rmd.bam.bai", sample=config["prefix"]) # index for the sorted BAM file with PCR duplicates removed
-
-# Test to make sure the modular pipeline is behaving the way I expect it to (above is the "final" version)
 rule all:
     input:
-        f = expand("trimmed_reads/{sample}.fastp.1.fq.gz", sample=config["prefix"]),
-        r = expand("trimmed_reads/{sample}.fastp.2.fq.gz", sample=config["prefix"])
+        stats = expand("BAM_files/stats/{sample}.stats", sample=config["prefix"]), # diagnostic stats for our alignment
+        flagstats = expand("BAM_files/stats/{sample}.flagstats", sample=config["prefix"]),
+        index = expand("BAM_files/{sample}.rmd.bam.bai", sample=config["prefix"]) # index for the sorted BAM file with PCR duplicates removed
 
+# Test to make sure the modular pipeline is behaving the way I expect it to (above is the "final" version)
+# rule all:
+#     input:
+#         f = expand("trimmed_reads/{sample}.fastp.1.fq.gz", sample=config["prefix"]),
+#         r = expand("trimmed_reads/{sample}.fastp.2.fq.gz", sample=config["prefix"])
 
-# All the other rules are saved separately to make this pipeline modular so I can change it and add other options more easily in the future
-pipeline_dir = os.path.dirname(__file__) # gets the absolute path for the snakefile #NOTE I am not sure this is working and will replace it with something betterq
 
 # Setting the conda environment
 default_env = os.path.expanduser("~/Handy-bioinformatics-scripts/Filter_map_reads/envs/filter_map_reads_default.yml") # setting the default conda environment for the rules
@@ -36,30 +33,30 @@ def get_rule_filepath(rule):
 # Rule that uses fastp to trim and filter reads
 include: get_rule_filepath("trim_filter_fastqs")
 
-# # Rule that uses bwa to map reads to reference genome. Modularity of this pipeline means I can add support for other aligners in the future
-# include: os.path.join(pipeline_dir, "rules", "bwa_map.smk") 
+# Rule that uses bwa to map reads to reference genome. Modularity of this pipeline means I can add support for other aligners in the future
+include: get_rule_filepath("bwa_map")
 
-# # Rule to sort the resulting BAM file
-# include: os.path.join(pipeline_dir, "rules", "samtools_sort.smk")
+# Rule to sort the resulting BAM file
+include: get_rule_filepath("samtools_sort")
 
-# # Rule to index the result of this
-# include: os.path.join(pipeline_dir, "rules", "samtools_index.smk")
+# Rule to index the result of this
+include: get_rule_filepath("samtools_index")
 
-# # Rule to remove PCR duplicates using Picard
-# include: os.path.join(pipeline_dir, "rules", "remove_PCR_dups.smk")
+# Rule to remove PCR duplicates using Picard
+include: get_rule_filepath("remove_PCR_dups")
 
-# # Reusing the rule for BAM indexing to index the result of this. Unfortunately there isn't a more elegant way to do this using wildcards
-# # because we want the output of the first one to be temporary while we want to guarantee that this one sticks around
-# use rule samtools_index as samtools_index_deduped with:
-#     input:
-#         "BAM_files/{sample}.rmd.bam"
-#     output:
-#         "BAM_files/{sample}.rmd.bam.bai"
-#     log:
-#         "logs/samtools_index_deduped/{sample}.log"
+# Reusing the rule for BAM indexing to index the result of this. Unfortunately there isn't a more elegant way to do this using wildcards
+# because we want the output of the first one to be temporary while we want to guarantee that this one sticks around
+use rule samtools_index as samtools_index_deduped with:
+    input:
+        "BAM_files/{sample}.rmd.bam"
+    output:
+        "BAM_files/{sample}.rmd.bam.bai"
+    log:
+        "logs/samtools_index_deduped/{sample}.log"
 
-# # Rule to get diagnostic stats for our alignments
-# include: os.path.join(pipeline_dir, "rules", "BAM_stats.smk")
+# Rule to get diagnostic stats for our alignments
+include: get_rule_filepath("BAM_stats")
 
 
 
