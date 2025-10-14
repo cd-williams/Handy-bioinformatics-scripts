@@ -1,14 +1,13 @@
 # Rule for removing PCR duplicates using Picard Tools
 # Turns out you can just install Picard using conda so there is no need to faff about with Java and .jar filepaths
 
-rule remove_dups:
+rule remove_PCR_dups:
     input:
         bam_in = "sorted_reads/{sample}.bam",
         bai = "sorted_reads/{sample}.bam.bai"
     output:
         bam_out = "BAM_files/{sample}.rmd.bam",
         stats = "BAM_files/remove_duplicates_stats/{sample}.rmd.bam.metrics"
-    threads: 1
     conda:
         config["default_env"]
     log:

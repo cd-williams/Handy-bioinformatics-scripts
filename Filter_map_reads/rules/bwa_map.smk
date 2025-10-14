@@ -11,7 +11,6 @@ rule bwa_map:
         prefix = lambda wildcards: config["prefix"][wildcards.sample],
         rg1="@RG\\tPL:Illumina\\tSM:", # NOTE make these customisable once you are confident the modular pipeline is working
         rg2="\\tID:"
-    threads: 10
     conda:
         config["default_env"]
     log:

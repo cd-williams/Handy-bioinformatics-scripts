@@ -1,6 +1,6 @@
 # Rule to get diagnostic stats from our final BAM files
 
-rule stats:
+rule BAM_stats:
     input:
         "BAM_files/{sample}.rmd.bam"
     output:

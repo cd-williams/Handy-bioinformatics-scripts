@@ -14,19 +14,39 @@ executor: slurm
 
 # Default resources for a rule
 default-resources:
-  runtime: 60  # in MINUTES
+  runtime: 10  # in MINUTES
   slurm_partition: "cclake-himem"
   slurm_account: "JIGGINS-SL3-CPU"
   slurm_extra: "--mail-type=FAIL"
 
 # Set specific resources for specific rules
+# Anything not listed here will use the defaults, but you can easily add specific settings if you want
 set-resources:
   trim_filter_fastqs:
     cpus_per_task: 5
-    slurm_extra: "--mail-type=ALL"
-    runtime: 10
+  
+  bwa_map:
+    cpus_per_task: 10
+    runtime: 60
+
+  samtools_sort:
+    cpus_per_task: 10
+  
+  remove_PCR_dups:
+    runtime: 60
+
+  
+  
+
 
 # Sets the threads that will be used in the script submitted as part of the rule
 # NOTE this should always be <= cpus_per_task for the corresponding rule (usually = unless you want more memory on the Cam HPC)
+# Any rules that are not included here use software that does not support multithreading
 set-threads:
   trim_filter_fastqs: 5
+  bwa_map: 10
+  samtools_sort: 10
+  samtools_index: 1
+  remove_PCR_dups: 1
+  samtools_index_deduped: 1
+  BAM_stats: 1

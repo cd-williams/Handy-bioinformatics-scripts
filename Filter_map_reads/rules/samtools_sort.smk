@@ -6,7 +6,6 @@ rule samtools_sort:
         "mapped_reads/{sample}.bam"
     output:
         temp("sorted_reads/{sample}.bam")
-    threads: 10
     conda:
         config["default_env"]
     log:
