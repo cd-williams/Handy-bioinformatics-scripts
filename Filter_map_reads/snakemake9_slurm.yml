@@ -13,8 +13,8 @@ dependencies:
   - attrs=25.3.0=pyh71513ae_0
   - brotli-python=1.1.0=py313h7033f15_4
   - bzip2=1.0.8=hda65f42_8
-  - ca-certificates=2025.8.3=hbd8a1cb_0
-  - certifi=2025.8.3=pyhd8ed1ab_0
+  - ca-certificates=2025.10.5=hbd8a1cb_0
+  - certifi=2025.10.5=pyhd8ed1ab_0
   - cffi=1.17.1=py313hf01b4d8_1
   - charset-normalizer=3.4.3=pyhd8ed1ab_0
   - click=8.2.1=pyh707e725_0
@@ -70,7 +70,7 @@ dependencies:
   - nbformat=5.10.4=pyhd8ed1ab_1
   - ncurses=6.5=h2d0b736_3
   - numpy=2.3.3=py313hf6604e3_0
-  - openssl=3.5.2=h26f9b46_0
+  - openssl=3.5.4=h26f9b46_0
   - packaging=25.0=pyh29332c3_1
   - pandas=2.3.2=py313h08cd8bf_0
   - pephubclient=0.4.4=pyhd8ed1ab_1
@@ -108,6 +108,8 @@ dependencies:
   - smart_open=7.3.1=pyhcf101f3_0
   - smmap=5.0.2=pyhd8ed1ab_0
   - snakemake=9.11.2=hdfd78af_0
+  - snakemake-executor-plugin-slurm=1.4.0=pyhdfd78af_0
+  - snakemake-executor-plugin-slurm-jobstep=0.3.0=pyhdfd78af_0
   - snakemake-interface-common=1.21.0=pyhdfd78af_0
   - snakemake-interface-executor-plugins=9.3.9=pyhdfd78af_0
   - snakemake-interface-logger-plugins=1.2.4=pyhdfd78af_0

@@ -6,7 +6,7 @@ jobs: 100
 # Tells it to use conda environments specified in rules
 use-conda: true
 
-# Number of cores snakemake can use locally
+# Number of cores snakemake can use locally (for building DAGs, submitting rules to the cluster etc)
 cores: 10
 
 # Tell snakemake that we will be using SLURM as our job scheduler
@@ -23,11 +23,11 @@ default-resources:
 # Anything not listed here will use the defaults, but you can easily add specific settings if you want
 set-resources:
   trim_filter_fastqs:
-    cpus_per_task: 5
+    cpus_per_task: 8
   
   bwa_map:
     cpus_per_task: 10
-    runtime: 60
+    runtime: 120
 
   samtools_sort:
     cpus_per_task: 10
@@ -43,7 +43,7 @@ set-resources:
 # NOTE this should always be <= cpus_per_task for the corresponding rule (usually = unless you want more memory on the Cam HPC)
 # Any rules that are not included here use software that does not support multithreading
 set-threads:
-  trim_filter_fastqs: 5
+  trim_filter_fastqs: 8
   bwa_map: 10
   samtools_sort: 10
   samtools_index: 1
