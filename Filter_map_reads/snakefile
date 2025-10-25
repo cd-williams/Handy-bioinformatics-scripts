@@ -2,11 +2,6 @@
 # The end result should be a folder containing an indexed BAM file for each sample
 # Cian Williams cdw45@cam.ac.uk
 
-
-# The snakemake config file. This should be in the working directory for the project (where you want the folder with all the BAM files to be)
-# It contains all the sample info, as well as options for some of the commands
-configfile: "config.yaml"
-
 # The "target" rule (our final destination; what we would like to have at the end of the pipeline)
 rule all:
     input:
