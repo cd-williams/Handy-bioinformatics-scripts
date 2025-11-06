@@ -16,6 +16,7 @@ Modular snakemake pipeline for trimming & filtering short reads and mapping to a
 [Snakemake](https://snakemake.readthedocs.io/en/stable/) is a useful software tool for creating reproducible bioinformatics pipelines. An entire pipeline is contained in a single "snakefile", with each step defined as a [rule](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html) that takes a set of defined files as an input, processes them, and produces a set of defined output files. Based on the set of input and output files that you define for each rule, Snakemake is able to work out what order tasks need to be completed in, representing this information as a directed acyclic graph (example below):
 
 ![Example of a Snakemake DAG](DAG.svg)
+
 If you want to get a better grasp of how Snakemake solves these dependencies, I would recommend this [tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html#tutorial). 
 
 There are three important components to this pipeline:
@@ -127,7 +128,9 @@ If you accidentally delete `nohup.out`, or simply didn't set up the snakemake ou
 There are two reasons why a job might fail:
 
 **1. Internal issue**
+
 If the issue was because the software used in the corresponding rule couldn't process a file (for example say if a tool required a sorted BAM but you provided it with an unsorted BAM), this information will be stored in `/logs/rulename/samplename.log`. Check this file and see if anything went wrong, and then take steps to fix it.
 
 **2. Cluster issue**
+
 If the issue was with the cluster (for example running out of time or memory), this information will be contained in `.snakemake/slurm_logs/rule/`. If something like this was a problem, you can adjust the memory or time allocated to a rule by tweaking the profile.
