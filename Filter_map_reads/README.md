@@ -30,7 +30,7 @@ We add individual rules to the snakefile using `include:`. This pulls the corres
 #### 2. The profile
 The profile is a YAML file that controls resource usage by each rule, as well as the resources (time, number of threads, and memory) allocated to each rule. There is a useful "default" profile in the profiles/ directory, but you may want to tweak this or create your own depending on your needs.
 
-### 3. The config file
+#### 3. The config file
 The config file is a YAML file that contains all the information that Snakemake will use to build the filenames it uses in the inputs and outputs of the rules. It contains:
 
 - Filepath for the reference genome:
