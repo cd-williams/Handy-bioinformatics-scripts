@@ -15,7 +15,7 @@ Modular snakemake pipeline for trimming & filtering short reads and mapping to a
 ### Anatomy of the snakemake pipeline
 [Snakemake](https://snakemake.readthedocs.io/en/stable/) is a useful software tool for creating reproducible bioinformatics pipelines. An entire pipeline is contained in a single "snakefile", with each step defined as a [rule](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html) that takes a set of defined files as an input, processes them, and produces a set of defined output files. Based on the set of input and output files that you define for each rule, Snakemake is able to work out what order tasks need to be completed in, representing this information as a directed acyclic graph (example below):
 
-![[DAG.svg | 600]]
+![Example of a Snakemake DAG](DAG.svg)
 If you want to get a better grasp of how Snakemake solves these dependencies, I would recommend this [tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html#tutorial). 
 
 There are three important components to this pipeline:
