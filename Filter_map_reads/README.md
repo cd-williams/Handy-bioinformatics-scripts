@@ -28,7 +28,7 @@ The snakefile contains the overall workflow for this pipeline. It has a single "
 We add individual rules to the snakefile using `include:`. This pulls the corresponding files from `rules/` and integrates them into the snakefile. The modular nature of this setup means it is easy to chop and change rules. For example, if you wanted to use a different aligner other than `bwa`, you can easily write your own rule, save it to `rules/` and then call it in the snakefile. I plan to add support for other software in this pipeline as and when I need to.
 
 #### 2. The profile
-The profile is a YAML file that controls resource usage by each rule, as well as the resources (time, number of threads, and memory) allocated to each rule. There is a useful "default" profile in the `profiles/` directory, but you may want to tweak this or create your own depending on your needs.
+The profile is a YAML file that controls resource usage by each rule (time, number of threads, and memory), as well as how Snakemake interacts with the cluster. There is a useful "default" profile in the `profiles/` directory, but you may want to tweak this or create your own depending on your needs.
 
 #### 3. The config file
 The config file is a YAML file that contains all the information that Snakemake will use to build the filenames it uses in the inputs and outputs of the rules. It contains:
