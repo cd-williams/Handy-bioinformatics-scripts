@@ -91,7 +91,7 @@ Before running the pipeline, you will also need to create a config file (and als
 
 First, I would recommend checking that the pipeline is going to behave as you expect. You can create a DAG that shows what the pipeline will do using:
 ```
-snakemake --snakefile ~/Handy-bioinformatics-scripts/Filter_map_reads/snakefile --configfile /path/to/configfile/config.yaml | dot -Tsvg > DAG.svg
+snakemake --dag --snakefile ~/Handy-bioinformatics-scripts/Filter_map_reads/snakefile --configfile /path/to/configfile/config.yaml | dot -Tsvg > DAG.svg
 ```
 
 Inspect the DAG to make sure that the pipeline is behaving as you expect.
