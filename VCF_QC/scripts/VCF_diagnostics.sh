@@ -5,30 +5,48 @@
 # A required parameter is the output directory for the stats files
 # Requires vcftools (sadly no multithreading :( )
 
+while getopts v:o: flag
+do
+    case $flag in
+        v) vcf=$OPTARG;; # the VCF
+        o) outdir=$OPTARG;; # output directory
+        \?) echo "Error: invalid option"
+            exit;;
+    esac
+done
 
 # Allele frequency for each variant
-vcftools --gzvcf ${snakemake_input[VCF]} --freq2 --out ${snakemake_params[outdir]} --max-alleles 2
+echo "Allele frequency"
+vcftools --gzvcf ${vcf} --freq2 --out ${outdir} --max-alleles 2 --min-alleles 2
 
 # Mean depth of coverage per individual
-vcftools --gzvcf ${snakemake_input[VCF]} --depth --out ${snakemake_params[outdir]}
+echo "Mean individual depth"
+vcftools --gzvcf ${vcf} --depth --out ${outdir}
 
 # Mean depth of coverage for each site
-vcftools --gzvcf ${snakemake_input[VCF]} --site-mean-depth --out ${snakemake_params[outdir]}
+echo "Mean depth for each site"
+vcftools --gzvcf ${vcf} --site-mean-depth --out ${outdir}
 
 # Quality score for each site
-vcftools --gzvcf ${snakemake_input[VCF]} --site-quality --out ${snakemake_params[outdir]}
+echo "Quality score for each site"
+vcftools --gzvcf ${vcf} --site-quality --out ${outdir}
 
 # Proportion of missing data per individual
-vcftools --gzvcf ${snakemake_input[VCF]} --missing-indv --out ${snakemake_params[outdir]}
+echo "proportion of missing data for each individual"
+vcftools --gzvcf ${vcf} --missing-indv --out ${outdir}
 
 # Proportion of missing data per site
-vcftools --gzvcf ${snakemake_input[VCF]} --missing-site --out ${snakemake_params[outdir]}
+echo "proportion of missing data for each site"
+vcftools --gzvcf ${vcf} --missing-site --out ${outdir}
 
 # Individual heterozygosity
-vcftools --gzvcf ${snakemake_input[VCF]} --het --out ${snakemake_params[outdir]}
+echo "individual heterozygosity"
+vcftools --gzvcf ${vcf} --het --out ${outdir}
 
 # Genotype depth
-vcftools --gzvcf ${snakemake_input[VCF]} --geno-depth --out ${snakemake_params[outdir]}
+echo "Genotype depth"
+vcftools --gzvcf ${vcf} --geno-depth --out ${outdir}
 
 # Genotype quality
-vcftools --gzvcf ${snakemake_input[VCF]} --extract-FORMAT-info GQ --out ${snakemake_params[outdir]}
+echo "Genotype quality"
+vcftools --gzvcf ${vcf} --extract-FORMAT-info GQ --out ${outdir}
